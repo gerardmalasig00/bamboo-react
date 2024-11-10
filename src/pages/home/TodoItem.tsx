@@ -80,7 +80,7 @@ const TodoItem = (props: ITodo) => {
   };
 
   const handleDelete = () => {
-    dispatch(removeTodo(id as number));
+    dispatch(removeTodo(id!));
   };
 
   const handleSelectChange = (
@@ -93,13 +93,20 @@ const TodoItem = (props: ITodo) => {
   };
 
   return (
-    <Stack padding={2} border={1} borderRadius={2} borderColor="grey" gap={2}>
+    <Stack
+      mb={2}
+      padding={2}
+      border={1}
+      borderRadius={2}
+      borderColor="grey"
+      gap={2}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: "stretch",
+          alignItems: "flex-start",
         }}
       >
         <Box>
@@ -177,6 +184,8 @@ const TodoItem = (props: ITodo) => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
                 gap: 2,
               }}
             >

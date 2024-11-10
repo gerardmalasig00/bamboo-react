@@ -2,6 +2,7 @@ import { Close } from "@mui/icons-material";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ITodo } from "../types";
+import { debounce } from "lodash";
 
 interface SearchInputProps {
   totalItems: ITodo[];
@@ -17,25 +18,21 @@ const SearchInput = ({
 }: SearchInputProps) => {
   const [search, setSearch] = useState("");
 
-  // Create debounce when search is changed
   useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
-    if (search) {
-      setIsLoading(true);
-      timer = setTimeout(() => {
-        setParams(search);
-        setIsLoading(false);
-      }, 300);
-    } else {
-      setParams("");
+    const debouncedSearch = debounce((value: string) => {
       setIsLoading(false);
-    }
+      setParams(value);
+    }, 300);
+
+    debouncedSearch(search);
+
     return () => {
-      clearTimeout(timer);
+      debouncedSearch.cancel(); // Cancel debounce when the component unmounts or the search changes
     };
-  }, [search]);
+  }, [search, setParams, setIsLoading]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     setSearch(e.target.value);
   };
   return (
@@ -73,7 +70,7 @@ const SearchInput = ({
           isLoading
             ? "Searching..."
             : totalItems.length === 0
-            ? "No products matched your search keyword."
+            ? "No todos matched your search keyword."
             : ""
         }
       />
