@@ -1,0 +1,20 @@
+Part 3: Code Review Questions
+Please answer the following questions in a text file:
+
+    State Management:
+    Why did you choose the specific state management approach? How
+    would you scale it for a larger application?
+        - I chose Redux Toolkit for state management due to its simplicity, widespread community support, and proven reliability in handling complex state logic. Redux Toolkit simplifies the setup of Redux with features like built-in support for immutability, middleware, and the ability to structure actions and reducers in a maintainable way
+    Performance Optimization:
+    What techniques did you use to optimize the performance of the
+    application? How do they work?
+        - I implemented useMemo for the "todos" data in the Home Page component to prevent unnecessary re-renders whenever the dependency array remains unchanged. This optimizes performance by reusing the memoized value instead of recalculating it each time the component renders.
+        - I also used useCallback for functions with expensive calculations to ensure these functions are only recreated when necessary. This reduces re-renders and enhances efficiency by caching the function reference as long as its dependencies stay the same.
+        - Additionally, I implemented react-window on Todos component for optimizing rendering of large lists. react-window enables virtualized rendering by displaying only the components currently in view and “unmounting” the ones outside of view. It works like a real window: just as you only see part of a house through a window, react-window only renders components that fit within the specified height and width of the viewport, reducing memory usage and enhancing performance by only loading visible items, but I remove it due to the styling issue.
+    Testing Strategy:
+    How do you decide which parts of the application need to be unit
+    tested? What are your guidelines?
+    Code Structure:
+        - For unit testing, I focus on testing each page or module individually. This approach allows me to verify that all components within a specific page or module function correctly and work well together. It saves time and ensures thorough coverage of each module’s functionality.
+    Explain how you organized your project structure and why.
+        - I used a modular folder structure, as outlined in the assessment requirements. Each folder serves a specific purpose: modules or pages are placed under /src/pages, while smart and presentational components are organized under /src/components. Most TypeScript files and core application logic reside in the /src folder, ensuring that the structure is clear, maintainable, and easy to navigate.

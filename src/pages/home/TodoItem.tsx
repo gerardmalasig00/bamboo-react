@@ -11,7 +11,6 @@ import {
 import { ITodo } from "../../types";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { Delete, Edit } from "@mui/icons-material";
 import MorePopover from "../../components/MorePopOver";
 import { editTodo, removeTodo } from "../../store/slices/todoSlice";
 
@@ -49,7 +48,9 @@ const TodoItem = (props: ITodo) => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState(defaultError);
-  const handleEdit = () => setIsEditing(true);
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
   const cancelEdit = () => setIsEditing(false);
 
   const validateForm = () => {
@@ -94,6 +95,7 @@ const TodoItem = (props: ITodo) => {
 
   return (
     <Stack
+      data-testid={`todo-${id}-${title}`}
       mb={2}
       padding={2}
       border={1}
@@ -166,6 +168,7 @@ const TodoItem = (props: ITodo) => {
                 const stat = statuses[status as keyof typeof statuses];
                 return (
                   <MenuItem
+                    key={status}
                     value={status}
                     sx={{
                       textTransform: "capitalize",
@@ -179,28 +182,7 @@ const TodoItem = (props: ITodo) => {
             </Select>
           )}
 
-          <MorePopover>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-                gap: 2,
-              }}
-            >
-              <Button onClick={handleEdit} color="info" startIcon={<Edit />}>
-                Edit
-              </Button>
-              <Button
-                onClick={handleDelete}
-                color="error"
-                startIcon={<Delete />}
-              >
-                Delete
-              </Button>
-            </Box>
-          </MorePopover>
+          <MorePopover handleDelete={handleDelete} handleEdit={handleEdit} />
         </Box>
       </Box>
       {isEditing ? (

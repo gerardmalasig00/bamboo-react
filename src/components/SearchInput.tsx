@@ -38,12 +38,14 @@ const SearchInput = ({
   return (
     <Box width={"100%"} flex={1}>
       <TextField
+        data-testid="search-input"
+        label="Search Todo"
         sx={{ width: "100%" }}
         value={search}
         onChange={handleChange}
         variant="outlined"
         size="small"
-        placeholder="Search product"
+        placeholder="Search Todo"
         slotProps={{
           input: {
             endAdornment: search ? (

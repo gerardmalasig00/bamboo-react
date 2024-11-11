@@ -18,13 +18,8 @@ import { ITodo } from "../../types";
 import Todos from "./Todos";
 import SearchInput from "../../components/SearchInput";
 import { Add } from "@mui/icons-material";
+import { todoStatuses } from "../../utils/constants";
 
-export const todoStatuses = [
-  "all",
-  "pending",
-  "completed",
-  "in progress",
-] as const;
 export type TodoStatus = (typeof todoStatuses)[number];
 
 const statuses = [
@@ -123,6 +118,7 @@ const Home = memo(() => {
           setIsLoading={setLoading}
         />
         <Select
+          data-testid="status-filter"
           labelId="select-label"
           value={status}
           onChange={handleStatusFilterChange}
@@ -141,6 +137,7 @@ const Home = memo(() => {
           </MenuItem>
           {statuses.map((stat) => (
             <MenuItem
+              key={stat.value}
               value={stat.value}
               sx={{
                 textTransform: "capitalize",
@@ -156,7 +153,7 @@ const Home = memo(() => {
       </Stack>
 
       <Box width={"100%"}>
-        {todos.length === 0 && !search ? (
+        {todos.length === 0 && !search && status === "all" ? (
           <EmptyTodos handleOpen={handleOpen} />
         ) : (
           <Todos todos={todos} />

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Popover from "@mui/material/Popover";
-import { Box, IconButton } from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+import { Box, Button, IconButton } from "@mui/material";
+import { Delete, Edit, MoreVert } from "@mui/icons-material";
 
 interface MorePopoverProps {
-  children: React.ReactNode;
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-const MorePopover = ({ children }: MorePopoverProps) => {
+const MorePopover = ({ handleDelete, handleEdit }: MorePopoverProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,7 +39,31 @@ const MorePopover = ({ children }: MorePopoverProps) => {
           horizontal: "right",
         }}
       >
-        <Box padding={2}>{children}</Box>
+        <Box padding={2}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 2,
+            }}
+          >
+            <Button
+              onClick={() => {
+                handleClose();
+                handleEdit();
+              }}
+              color="info"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+            <Button onClick={handleDelete} color="error" startIcon={<Delete />}>
+              Delete
+            </Button>
+          </Box>
+        </Box>
       </Popover>
     </Box>
   );
